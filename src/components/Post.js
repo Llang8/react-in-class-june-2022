@@ -5,17 +5,15 @@ export default function Post(props) {
     function buildHeader() {
         let resHeader;
 
-        console.log(props.post)
-
         if (!props.hideLink) {
             resHeader = (
                 <Link to={"/blog/" + props.post.id}>
-                    {props.post.id}: { props.post.body }
+                    {props.post.id}: { props.post.title }
                 </Link>
             )
         } else {
             resHeader = (
-                <>{props.post.id}: { props.post.body }</>
+                <>{props.post.id}: { props.post.title }</>
             )
         }
 
@@ -27,7 +25,8 @@ export default function Post(props) {
             <h2>
                 { buildHeader() }
             </h2>
-            <p>{ props.post.date_created }</p>
+            <p>{ props.post.body }</p>
+            <p>Date Posted: { props.post.dateCreated.toDate().toLocaleDateString() }</p>
         </div>
     )
 }

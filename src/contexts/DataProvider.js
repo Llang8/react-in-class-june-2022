@@ -1,21 +1,55 @@
 import { createContext, useState, useEffect } from "react"
+import { getFirestore, getDoc, getDocs, collection, doc } from '@firebase/firestore'
 
 export const DataContext = createContext()
 
 export const DataProvider = (props) => {
     const [posts, setPosts] = useState([])
+    const db = getFirestore()
 
     useEffect(() => {
-        // fetch('http://127.0.0.1:5000/api/posts')
-        fetch('https://fakebook-june-2022.herokuapp.com/api/posts')
-            .then((res) => res.json())
-            .then((data) => setPosts(data))
+        const getPosts = async() => {
+            /* const docRef = doc(db, "posts", "5Gd1m39DEukV7nJkTy6a")
+            const docSnap = await getDoc(docRef)
+
+            if (docSnap.exists()) {
+                console.log("It exists, here's the data", docSnap.data())
+            } else {
+                console.log("The document did not exist")
+            }
+
+            console.log(docSnap) */
+            const collectionRef = collection(db, "posts")
+            const collectionSnap = await getDocs(collectionRef)
+
+            let postsArr = []
+
+            collectionSnap.forEach((docSnap) => {
+                postsArr.push({
+                    ...docSnap.data(),
+                    id: docSnap.id
+                })
+            })
+
+            console.log(postsArr)
+
+            setPosts(postsArr)
+        }
+        getPosts()
     }, [])
 
     const getSinglePost = async (id) => {
-        const res = await fetch(`https://fakebook-june-2022.herokuapp.com/api/post/${id}`)
-        const data = await res.json()
-        return data
+        const docRef = doc(db, "posts", id)
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+            return {
+                ...docSnap.data(),
+                id: docSnap.id
+            }
+        } else {
+            console.log("The document did not exist")
+        }
     }
 
     const values = {

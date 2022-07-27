@@ -9,6 +9,7 @@ import Contact from './views/Contact'
 import Home from './views/Home'
 import Blog from './views/Blog'
 import BlogSingle from './views/BlogSingle'
+import firebase from './firebase'
 
 export default function App() {
 
