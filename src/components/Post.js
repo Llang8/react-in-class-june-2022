@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 
 export default function Post(props) {
-    
+
     function buildHeader() {
         let resHeader;
+
+        console.log(props.post)
 
         if (!props.hideLink) {
             resHeader = (

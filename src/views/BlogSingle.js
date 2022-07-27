@@ -1,15 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import Post from '../components/Post'
+import { DataContext } from '../contexts/DataProvider'
+
 
 export default function BlogSingle() {
     const { id } = useParams()
     const [post, setPost] = useState({})
+    const { getSinglePost } = useContext(DataContext)
 
     useEffect(() => {
-        fetch(`https://fakebook-june-2022.herokuapp.com/api/post/${id}`)
-            .then((res) => res.json())
-            .then((data) => setPost(data))
+        const queryPost = async() => {
+            setPost(await getSinglePost(id))
+        }
+        queryPost()
     }, [id])
 
     return (
