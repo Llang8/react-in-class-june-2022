@@ -1,11 +1,15 @@
+import { useContext } from 'react'
+import { DataContext } from '../contexts/DataProvider'
 
 export default function PostForm() {
+    const { addPost } = useContext(DataContext)
 
     function handleSubmit(event) {
         event.preventDefault()
         const formData = new FormData(event.target)
         const data = Object.fromEntries(formData)
-        console.log(data.title, data.body)
+        addPost(data.title, data.body)
+        event.target.reset()
     }
 
     return (
