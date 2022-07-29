@@ -13,16 +13,27 @@ export default function PostForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="my-3">
+            {/* <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input type="text" name="title" id="" />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="body">Body</label>
+                    <input type="text" name="body" id="" />
+                </div>
+                <button type="submit">Add Post</button>
+            </form> */}
             <div className="form-group">
                 <label htmlFor="title">Title</label>
-                <input type="text" name="title" id="" />
+                <input type="text" className="form-control" name="title" />
             </div>
             <div className="form-group">
                 <label htmlFor="body">Body</label>
-                <input type="text" name="body" id="" />
+                <input type="text" className="form-control" name="body" />
             </div>
-            <button type="submit">Add Post</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
         </form>
     )
 }

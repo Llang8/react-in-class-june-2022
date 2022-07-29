@@ -22,7 +22,10 @@ export const DataProvider = (props) => {
             collectionSnap.forEach((docSnap) => {
                 postsArr.push({
                     ...docSnap.data(),
-                    id: docSnap.id
+                    id: docSnap.id,
+                    // Get reference to document, get reference to posts subcollection, then get reference to the user document
+                    // Then get the user document's ID
+                    uid: docSnap.ref.parent.parent.id 
                 })
             })
 
@@ -33,40 +36,26 @@ export const DataProvider = (props) => {
         getPosts()
     }, [])
 
-    const getSinglePost = async (id) => {
-        const collectionRef = collectionGroup(db, "posts")
-        /* const collectionSnap = await getDocs(collectionRef) */
-        const q = query(collectionRef, orderBy('dateCreated', 'desc'))
-        const collectionSnap = await getDocs(q)
-
-        let postsArr = []
-
-        let resultDoc = {}
-
-        collectionSnap.forEach((docSnap) => {
-            if (docSnap.id === id) {
-                resultDoc = {
-                    id: id,
-                    ...docSnap.data()
-                }
-            }
-        })
-
-        return resultDoc
-        /* const collectionRef = collectionGroup(db, "posts")
-        const docRef = doc(collectionRef, id)
-        console.log(docRef)
+    const getSinglePost = async (uid, id) => {
+        const docRef = doc(db, "users", uid, "posts", id)
         const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-            return {
-                ...docSnap.data(),
-                id: docSnap.id
-            }
-        } else {
-            console.log("The document did not exist")
-        } */
+        /* const collectionRef = collection(db, "users", uid, "posts", id, "comments")
+        const collectionSnap = await getDocs(collectionRef)
 
+        let comments = []
+
+        collectionSnap.forEach((docSnap) => {
+            comments.push(docSnap.data())
+        }) */
+
+
+        return {
+            ...docSnap.data(),
+            id: docSnap.id,
+            uid: uid
+            /* comments: comments */
+        }
     }
 
     const addPost = async(title, body) => {
@@ -77,6 +66,7 @@ export const DataProvider = (props) => {
         const newPost = {
             title: title,
             body: body,
+            uid: user.id,
             dateCreated: Timestamp.now()
         }
 

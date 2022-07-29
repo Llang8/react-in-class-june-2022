@@ -5,14 +5,14 @@ import { DataContext } from '../contexts/DataProvider'
 
 
 export default function BlogSingle() {
-    const { id } = useParams()
+    const { uid, id } = useParams()
     const [post, setPost] = useState({})
     const [postState, setPostState] = useState("LOADING")
     const { getSinglePost } = useContext(DataContext)
 
     useEffect(() => {
         const queryPost = async() => {
-            setPost(await getSinglePost(id))
+            setPost(await getSinglePost(uid, id))
             setPostState("LOADED")
         }
         queryPost()
@@ -22,7 +22,7 @@ export default function BlogSingle() {
         <>
             {
                 (postState === "LOADED") ?
-                <Post post={post} hideLink={true} /> :
+                <Post post={post} hideLink={true} showComments={true} /> :
                 <p>Loading</p>
             }
         </>

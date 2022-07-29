@@ -19,43 +19,53 @@ export default function App() {
     return (
         <>
             <Router>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/blog">Blog</Link>
-                        </li>
-                        <li>
-                            <Link to="/contact">Contact</Link>
-                        </li>
-                    </ul>
-                    <ul>
-                        {
-                            (user.loggedIn) ?
-                            <li>
-                                <button onClick={logout}>Logout</button>
+                <nav className="navbar navbar-expand-sm navbar-dark bg-primary">
+                    <a className="navbar-brand" href="#">Navbar</a>
+                    <button className="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                        aria-expanded="false" aria-label="Toggle navigation"></button>
+                    <div className="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link">Home</Link>
                             </li>
-                            :
-                            <li>
-                                <button onClick={login}>Login</button>
+                            <li className="nav-item">
+                                <Link to="/blog" className="nav-link">Blog</Link>
                             </li>
-                        }
-                    </ul>
+                            <li className="nav-item">
+                                <Link to="/contact" className="nav-link">Contact</Link>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav">
+                            {
+                                (user.loggedIn) ?
+                                <li className="nav-item">
+                                    <button onClick={logout}>Logout</button>
+                                </li>
+                                :
+                                <li className="nav-item">
+                                    <button onClick={login}>Login</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </nav>
 
-                <h2>Current User: {user.username}</h2>
+                <main className="container mt-4">
+                    <h2>Current User: {user.username}</h2>
 
-                <Routes>
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="blog">
-                        {/* URL Prefix of /blog */}
-                        <Route path=":id" element={<BlogSingle />} />
-                        <Route path="" element={<Blog />} />
-                    </Route>
-                    <Route path="/" element={<Home />}  />
-                </Routes>
+                    <Routes>
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="blog">
+                            {/* URL Prefix of /blog */}
+                            <Route path=":uid">
+                                {/* URL Prefix of /blog/USER_ID/POST_ID */}
+                                <Route path=":id" element={<BlogSingle />} />
+                            </Route>
+                            <Route path="" element={<Blog />} />
+                        </Route>
+                        <Route path="/" element={<Home />}  />
+                    </Routes>
+                </main>
             </Router>
         </>
     )

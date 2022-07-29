@@ -7,13 +7,13 @@ export default function Post(props) {
 
         if (!props.hideLink) {
             resHeader = (
-                <Link to={"/blog/" + props.post.id}>
-                    {props.post.id}: { props.post.title }
+                <Link to={`/blog/${props.post.uid}/${props.post.id}`}>
+                    { props.post.title }
                 </Link>
             )
         } else {
             resHeader = (
-                <>{props.post.id}: { props.post.title }</>
+                <>{ props.post.title }</>
             )
         }
 
@@ -21,12 +21,25 @@ export default function Post(props) {
     }
 
     return (
-        <div className="card card-item">
-            <h2>
-                { buildHeader() }
-            </h2>
-            <p>{ props.post.body }</p>
-            <p>Date Posted: { props.post.dateCreated.toDate().toLocaleDateString() }</p>
+        <div className="card card-item mb-2">
+            <div className="card-body">
+                <h2>
+                    { buildHeader() }
+                </h2>
+                <p>{ props.post.body }</p>
+                <p>Date Posted: { props.post.dateCreated.toDate().toLocaleDateString() }</p>
+                {/* {
+                    (props.showComments) ?
+                    props.post.comments.map((comment) => (
+                        <>
+                            {comment.text}
+                            {comment.userId}
+                        </>
+                    ))
+                    :
+                    <></>
+                } */}
+            </div>
         </div>
     )
 }
